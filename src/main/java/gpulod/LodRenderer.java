@@ -5,6 +5,7 @@ import it.unimi.dsi.fastutil.longs.Long2IntOpenHashMap;
 import it.unimi.dsi.fastutil.longs.Long2ObjectMap;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
+import net.minecraft.network.chat.Component;
 import net.minecraft.util.Mth;
 import net.minecraft.world.phys.Vec3;
 import org.joml.Matrix4f;
@@ -240,12 +241,20 @@ public final class LodRenderer {
         if (disabled) return;
         LocalPlayer player = mc.player;
         if (mc.level == null || player == null) return;
+        boolean wasReady = ready;
         try {
             draw(mc, player);
+            if (!wasReady && ready) say(player, "[GPU LOD] aktif (OpenGL). Jelajahi dulu, lalu menjauh dari area itu.");
         } catch (Throwable t) {
             disabled = true;
-            LOG.error("GPU LOD dimatikan (butuh backend OpenGL; coba pilih OpenGL di pengaturan video): {}", t.toString());
+            LOG.error("GPU LOD dimatikan: {}", t.toString());
+            say(player, "[GPU LOD] NONAKTIF. Mod ini butuh OpenGL, sedangkan Minecraft 26.2+ memakai Vulkan secara default. "
+                    + "Buka Options > Video Settings > Graphics API > Prefer OpenGL, lalu restart game. (" + t.getClass().getSimpleName() + ")");
         }
+    }
+
+    private static void say(LocalPlayer player, String msg) {
+        player.displayClientMessage(Component.literal(msg), false);
     }
 
     private void clipControl(int origin, int depth) {
