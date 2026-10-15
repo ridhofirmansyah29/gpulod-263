@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "id": "gpulod",
+  "version": "${version}",
+  "name": "GPU LOD",
+  "description": "Renderer LOD jarak jauh berbasis GPU (instancing). Butuh backend grafis OpenGL.",
+  "environment": "client",
+  "entrypoints": { "client": ["gpulod.GpuLodClient"] },
+  "depends": {
+    "fabricloader": ">=0.19.5",
+    "minecraft": "~26.3",
+    "java": ">=25",
+    "fabric-api": "*"
+  }
+}
