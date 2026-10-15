@@ -253,8 +253,24 @@ public final class LodRenderer {
         }
     }
 
+    /** Kirim pesan ke chat. Pakai refleksi karena nama method chat berubah-ubah antar versi 26.x. */
     private static void say(LocalPlayer player, String msg) {
-        player.displayClientMessage(Component.literal(msg), false);
+        LOG.info(msg);
+        Component c = Component.literal(msg);
+        try {
+            player.getClass().getMethod("sendSystemMessage", Component.class).invoke(player, c);
+            return;
+        } catch (ReflectiveOperationException | RuntimeException ignored) { }
+        try {
+            player.getClass().getMethod("displayClientMessage", Component.class, boolean.class).invoke(player, c, false);
+            return;
+        } catch (ReflectiveOperationException | RuntimeException ignored) { }
+        try {
+            Minecraft mc = Minecraft.getInstance();
+            Object gui = Minecraft.class.getField("gui").get(mc);
+            Object chat = gui.getClass().getMethod("getChat").invoke(gui);
+            chat.getClass().getMethod("addMessage", Component.class).invoke(chat, c);
+        } catch (ReflectiveOperationException | RuntimeException ignored) { }
     }
 
     private void clipControl(int origin, int depth) {

@@ -1,9 +1,9 @@
-# GPU LOD v0.4.1 (Fabric, Minecraft 26.3)
+# GPU LOD v0.4.2 (Fabric, Minecraft 26.3)
 
 Build: lewat GitHub Actions (.github/workflows/build.yml) -> artifact "gpulod-jar".
 Lokal: JDK 25 + Gradle 9.5.1:  gradle build
 
-Pasang: Fabric Loader 0.19.5+, Fabric API 0.161.0+26.3, lalu gpulod-0.4.1.jar di folder mods.
+Pasang: Fabric Loader 0.19.5+, Fabric API 0.161.0+26.3, lalu gpulod-0.4.2.jar di folder mods.
 
 PENTING (RTX/GPU modern juga kena): Minecraft 26.2+ default-nya Vulkan.
 Set Options > Video Settings > Graphics API > Prefer OpenGL, lalu restart.
